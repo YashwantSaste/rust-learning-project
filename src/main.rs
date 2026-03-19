@@ -1,3 +1,5 @@
+use std::fs;
+
 fn main() {
 
     //initializing an integer type of variable in the Rust..
@@ -86,6 +88,14 @@ fn main() {
     println!("Area of the circle is: {}", calculate_area(circle));
     println!("Area of the rectangle is: {}", calculate_area(rectangle));
     println!("Area of the square is: {}", calculate_area(square));
+
+    //Error handling in Rust
+    let result = fs::read_to_string("non-existent-path");
+    //println!("Result of reading file: {:?}", result);
+    match result {
+        Ok(content) => println!("File content: {}", content),
+        Err(e) => println!("Error reading file: {}", e),
+    }
 
 }
 
