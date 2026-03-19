@@ -23,4 +23,24 @@ fn main() {
         Some(char1)=>println!("The char at the index is: {}",char1),
         None=>println!("Out of bound!"),
     }
+
+    //For loop
+    for num in 0..10 {
+        println!("{}", num);
+    }
+
+    let sentence:String = String::from("This is the initializing statement");
+    let first_word: String = get_first_word(sentence);
+    println!("First word is: {}", first_word);
+}
+
+fn get_first_word(sentence: String)->String {
+    let mut answer = String::from("");
+    for char in sentence.chars() {
+        answer.push_str(char.to_string().as_str());
+        if char == ' ' {
+            break;
+        }
+    }
+    return answer;
 }
