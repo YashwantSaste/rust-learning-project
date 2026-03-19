@@ -80,6 +80,13 @@ fn main() {
     let direction = Direction::North;
     change_direction(direction);
 
+    let circle = Shapes::Circle(5.0);
+    let rectangle = Shapes::Rectangle(10.0, 5.0);
+    let square = Shapes::Square(4.0);
+    println!("Area of the circle is: {}", calculate_area(circle));
+    println!("Area of the rectangle is: {}", calculate_area(rectangle));
+    println!("Area of the square is: {}", calculate_area(square));
+
 }
 
 fn takes_ownership_returns_string(some_string: String) -> String {
@@ -172,4 +179,20 @@ enum Direction {
     South,
     East,
     West,
+}
+
+
+// Enum with values
+enum Shapes {
+    Circle(f64), // radius
+    Rectangle(f64, f64), // width, height
+    Square(f64), // side length
+}
+
+fn calculate_area(shape:Shapes)->f64{
+    match shape {
+        Shapes::Circle(radius) => std::f64::consts::PI * radius * radius,
+        Shapes::Rectangle(width, height) => width * height,
+        Shapes::Square(side) => side * side,
+    }
 }
