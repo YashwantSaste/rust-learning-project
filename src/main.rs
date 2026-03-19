@@ -58,6 +58,28 @@ fn main() {
     // To return ownership back to the main function, we can modify the function to return the string.
     // let s2 = takes_ownership_returns_string(s1);
 
+    // Structs in Rust
+    let user = User {
+        name : String::from("Alice Borderland"),
+        age : 30,
+        email : String::from("alice@borderland.in:"),
+        active : true,
+    };
+
+    println!("User details: Name: {}, Age: {}, Email: {}, Active: {}", user.name, user.age, user.email, user.active);
+
+    let rectangle = Rectangle {
+        width: 10,
+        height: 5,
+    };
+
+    println!("Area of the rectangle is: {}", rectangle.area());
+    println!("Perimeter of the rectangle is: {}", rectangle.perimeter());
+
+    // Enums in Rust
+    let direction = Direction::North;
+    change_direction(direction);
+
 }
 
 fn takes_ownership_returns_string(some_string: String) -> String {
@@ -113,4 +135,41 @@ fn update_string() {
         s.push_str(" and some additional text");
         println!("Capacity: {}, Length: {}, Pointer: {}", s.capacity(), s.len(), s.as_ptr() as usize);
     };
+}
+
+struct User {
+    name: String,
+    age: u32,
+    email: String,
+    active: bool,
+}
+
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn perimeter(&self)->u32{
+        self.width * 2 + self.height * 2
+    }
+}
+
+fn change_direction(dir:Direction){
+    match dir{
+        Direction::North => println!("Going North!"),
+        Direction::South => println!("Going South!"),
+        Direction::East => println!("Going East!"),
+        Direction::West => println!("Going West!"),
+    }
+}
+enum Direction {
+    North,
+    South,
+    East,
+    West,
 }
