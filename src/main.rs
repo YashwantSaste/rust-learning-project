@@ -33,9 +33,40 @@ fn main() {
     let first_word: String = get_first_word(sentence);
     println!("First word is: {}", first_word);
 
-    stack_fn();   // Call the function that uses stack memory
-    heap_fn();    // Call the function that uses heap memory
-    update_string();  // Call the function that changes size of variable at runtime
+   // stack_fn();   // Call the function that uses stack memory
+    //heap_fn();    // Call the function that uses heap memory
+    //update_string();  // Call the function that changes size of variable at runtime
+
+    let x = 1; // crated on stack
+	let y = 3; // created on stack
+    println!("{}", sum(x, y));
+    println!("Hello, world!");
+
+    let s1 = String::from("hello");
+    let s2 = s1;
+    // This line would cause a compile error because ownership has been moved.
+    // println!("{}", s1); 
+
+    // This line would work because we have cloned the string, so both s1 and s2 own their own data.
+    //let s2 = s1.clone();
+
+
+    let my_string = String::from("hello");
+    takes_ownership(my_string);
+    // println!("{}", my_string); // This line would cause a compile error because ownership has been moved.
+
+    // To return ownership back to the main function, we can modify the function to return the string.
+    // let s2 = takes_ownership_returns_string(s1);
+
+}
+
+fn takes_ownership_returns_string(some_string: String) -> String {
+    println!("{}", some_string); 
+    return some_string; // return the string ownership back to the original main fn
+}
+
+fn takes_ownership(some_string: String) {
+    println!("{}", some_string); // `some_string` now owns the data.
 }
 
 fn get_first_word(sentence: String)->String {
@@ -47,6 +78,12 @@ fn get_first_word(sentence: String)->String {
         }
     }
     return answer;
+}
+
+fn sum(a: i32, b: i32) -> i32 {
+    let c = a + b; 
+    // a,b,c are created on stack and would be removed once the function call is over, as they are not needed anymore.
+    return c;
 }
 
 fn stack_fn() {
