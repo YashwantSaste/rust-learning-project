@@ -97,8 +97,23 @@ fn main() {
         Err(e) => println!("Error reading file: {}", e),
     }
 
+    //Option enum in Rust
+    let index_of_a = find_first_a(String::from("This is a sample string"));
+    match index_of_a {
+        Some(index) => println!("The index of first 'a' is: {}", index),
+        None => println!("Character 'a' not found in the string."), 
+    }
+
 }
 
+fn find_first_a(str:String)->Option<i32>{
+    for(index,char) in str.chars().enumerate(){
+        if char == 'a' {
+            return Some((index as i32));
+        }
+    }
+    return None;
+}
 fn takes_ownership_returns_string(some_string: String) -> String {
     println!("{}", some_string); 
     return some_string; // return the string ownership back to the original main fn
