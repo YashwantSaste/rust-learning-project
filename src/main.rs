@@ -1,3 +1,4 @@
+use core::hash;
 use std::fs;
 
 fn main() {
@@ -104,7 +105,62 @@ fn main() {
         None => println!("Character 'a' not found in the string."), 
     }
 
+
+    // Vectors in Rust
+    let mut vect = Vec::new();
+    vect.push(1);
+    vect.push(2);
+    println!("Vector: {:?}", vect);
+
+    let even_numbers = filter_even_number(vect);
+    println!("Even numbers: {:?}", even_numbers);
+
+    let vect2 = vec![1, 2, 3, 4, 5, 6];
+    let even_numbers_ref = filter_even_numbers_with_reference(&vect2);
+    println!("Even numbers with reference: {:?}", even_numbers_ref);
+    println!("Original vector after reference function: {:?}", vect2);
+
+    //Initializing a vector with macros
+    let mut vect3 = vec![10, 15, 20, 25, 30];
+    println!("Original vector: {:?}", vect3);
+
+    // Hashmaps in Rust
+    use std::collections::HashMap;
+    let mut hashmap = HashMap::new();
+    hashmap.insert("John Doe", 33);
+    hashmap.insert("Alice Borderland", 30);
+    println!("HashMap: {:?}", hashmap);
+    match hashmap.get("John Doe") {
+        Some(age) => println!("The age of John Doe is: {}", age),
+        None => println!("John Doe not found in the HashMap"),
+    }
+
 }
+
+// Writing a function that takes a vector as an argument and returns a vector with even values
+fn filter_even_number(numbers:Vec<i32>)->Vec<i32>{
+    let mut answer_vector =Vec::new();
+    for num in numbers {
+        if num % 2 == 0 {
+            answer_vector.push(num);
+        }
+    }
+    return answer_vector;
+}
+// Writing a same function as above that takes a vector as an argument and returns
+// a vector with even values but now passing the vector by reference instead of ownership transfer
+
+fn filter_even_numbers_with_reference(numbers:&Vec<i32>)->Vec<i32>{
+    let mut answer_vector =Vec::new();
+    for num in numbers {
+        if num % 2 == 0 {
+            answer_vector.push(*num); // dereference the number to get the value
+        }
+    }
+    return answer_vector;
+
+}
+
 
 fn find_first_a(str:String)->Option<i32>{
     for(index,char) in str.chars().enumerate(){
