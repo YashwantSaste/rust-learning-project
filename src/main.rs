@@ -135,6 +135,23 @@ fn main() {
         None => println!("John Doe not found in the HashMap"),
     }
 
+    let mut input_vector = vec![(String::from("John Doe"), 33), (String::from("Alice Borderland"), 30)];
+    let grouped_hashmap = group_values_by_key(input_vector);
+    println!("Grouped HashMap: {:?}", grouped_hashmap);
+
+}
+
+
+// Wrtiting a function that takes a vector of tuples as an argument
+// and returns a hashmap where the keys are the unique keys from the tuples and 
+//the values are vectors of corresponding values from the tuples.
+
+fn group_values_by_key(pairs: Vec<(String,i32)>) -> std::collections::HashMap<String, Vec<i32>>{
+    let mut hashmap = std::collections::HashMap::new();
+    for (key, value) in pairs {
+        hashmap.entry(key).or_insert(Vec::new()).push(value);
+    }
+    return hashmap;
 }
 
 // Writing a function that takes a vector as an argument and returns a vector with even values
