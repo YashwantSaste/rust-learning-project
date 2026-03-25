@@ -139,6 +139,45 @@ fn main() {
     let grouped_hashmap = group_values_by_key(input_vector);
     println!("Grouped HashMap: {:?}", grouped_hashmap);
 
+
+    let iterator_vector = vec![1, 2, 3, 4, 5];
+    let iterator = iterator_vector.iter();
+    for nums in iterator {
+        println!("Iterating over vector: {}", nums);
+    }
+
+
+    // iterator does not take ownership of the vector, so we can still use it after the loop
+    println!("Original vector after iteration: {:?}", iterator_vector);
+
+    // cannot mutate the vector while iterating over it, as it would cause a compile error
+    // as the iterator holds an immutable reference to the vector, so we cannot modify it while iterating.
+    // for nums in iterator_vector.iter() {
+    //     nums.push(10); // This line would cause a compile error
+    // }
+
+    // if we want to mutate the vector while iterating, we can use a mutable iterator
+    let mut mutable_vector = vec![1, 2, 3, 4, 5];
+    let mutable_iterator = mutable_vector.iter_mut();
+    for nums in mutable_iterator {
+        *nums += 10; // This line would work because we are using a mutable iterator
+    }
+    println!("Mutable vector after mutation: {:?}", mutable_vector);
+
+    let mut iterator_vector2 = vec![1, 2, 3, 4, 5];
+    let mut iterator2 = iterator_vector2.iter_mut();
+    while let Some(val) = iterator2.next() {
+        println!("Iterating with while let: {}", val);
+    }
+
+    // into_iter() takes ownership of the vector and returns an iterator that yields owned values, so we cannot use the original vector after calling into_iter()
+    let into_iterator_vector = vec![1, 2, 3, 4, 5];
+    let into_iterator = into_iterator_vector.into_iter();
+    for nums in into_iterator {
+        println!("Iterating with into_iter: {}", nums); 
+    }
+
+    // print!("Original vector after into_iter: {:?}", into_iterator_vector); // This line would cause a compile error because ownership has been moved.
 }
 
 
