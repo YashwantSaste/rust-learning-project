@@ -238,6 +238,20 @@ fn main() {
     let slice = &array[1..4]; // This creates a slice that references the
     // elements from index 1 to 3 (inclusive) of the array, which are 2, 3, and 4.
     println!("Array slice: {:?}", slice);
+
+    // Learing Generics in Rust
+    // Generics allow us to write functions and data structures that can work with any type,
+    // without having to specify the type explicitly. This is achieved using type parameters, which are placeholders for the actual types that will be used when the function or data structure is instantiated.
+
+    let first_generic = generic_function(5); // This will work with an integer type
+    let second_generic = generic_function("Hello"); // This will work with a string slice type
+    println!("First generic: {}", first_generic);
+    println!("Second generic: {}", second_generic);
+}
+
+// Writing a function demonstarting the generics in Rust
+fn generic_function<T>(input: T) -> T {
+    return input;
 }
 
 fn get_first_word_using_slice(string_input:&String)->&str{
