@@ -178,6 +178,46 @@ fn main() {
     }
 
     // print!("Original vector after into_iter: {:?}", into_iterator_vector); // This line would cause a compile error because ownership has been moved.
+
+    // Learning Consumer iterators in Rust
+    // Consumer adapters are used when we want to consume the items of an iterator, meaning that we want to take ownership of the items and use them in some way.
+    let consumer_vector = vec![1, 2, 3, 4, 5];
+    let consumer_iterator = consumer_vector.into_iter();
+    let sum: i32 = consumer_iterator.sum();
+    println!("Sum of the consumer vector: {}", sum);
+    // After consuming the vector with into_iter(), we cannot use the original vector anymore because ownership has been moved.
+    // print!("Original vector after consuming: {:?}", consumer_vector); // This line would cause a compile error because ownership has been moved.
+
+    // Learning Iterator adapters in Rust
+    // Iterator adapters are used when we want to create a new iterator from an existing one, allowing us to perform transformations or filtering on the items without consuming them.
+    let adapter_vector = vec![1, 2, 3, 4, 5];
+    let adapter_iterator = adapter_vector.iter().map(|x| x * 2).filter(|x| *x > 5);
+    for nums in adapter_iterator {
+        println!("Iterating with adapter: {}", nums);   
+    }
+
+    // You can access the original vector after using iterator adapters because they do not consume the items, they just create a new iterator that yields transformed items.
+    println!("Original vector after adapter: {:?}", adapter_vector);
+
+    // Filter is an iterator adapter that allows us to filter items based on a predicate function. It takes a closure that returns a boolean value, and it yields only the items for which the closure returns true.
+    let filter_vector = vec![1, 2, 3, 4, 5];
+    let filter_iterator = filter_vector.iter().filter(|x| **x % 2 == 0);
+    for nums in filter_iterator {
+        println!("Iterating with filter: {}", nums);
+    }
+
+    // Map is an iterator adapter that allows us to transform items based on a mapping function. It takes a closure that returns a new value, and it yields the transformed items.
+    let map_vector = vec![1, 2, 3, 4, 5];
+    let filter_odd_and_double_iterator = filter_odd_and_double(map_vector);
+    for nums in filter_odd_and_double_iterator {
+        println!("Iterating with filter and map: {}", nums);
+    }
+}
+
+// Writing a function that first filter all odd numbers and then double each value and create a new vector
+
+fn filter_odd_and_double(number_vector:Vec<i32>)->Vec<i32>{
+    return number_vector.iter().filter(|x| *x %2 !=0).map(|x| *x *2 ).collect();
 }
 
 
