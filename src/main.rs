@@ -1,5 +1,5 @@
 use core::hash;
-use std::fs;
+use std::{char, fs, string};
 
 fn main() {
 
@@ -212,6 +212,58 @@ fn main() {
     for nums in filter_odd_and_double_iterator {
         println!("Iterating with filter and map: {}", nums);
     }
+
+
+    // Learning Strings and Slices in Rust
+    let mut string1 = String::from("Hello");
+    string1.push_str(" World");
+    println!("String after push_str: {}", string1);
+    // getting first word using method
+    let first_word = get_first_word(string1.clone());
+    println!("First word: {}", first_word);
+
+    //using String slices to get the first word without taking ownership
+    let string2 = String::from("Hello Rustaceans");
+    let first_word_slice = get_first_word_using_slice(&string2);
+    println!("First word using slice: {}", first_word_slice);
+
+
+    // Three commonly used strings (there are acutally more)
+    let first_type = String::from("Hello"); // This creates a String on the heap, which is growable and mutable.
+    let second_type = "Hello"; // This creates a string slice (&str) which is a reference to a string literal, and it is immutable and has a fixed size.
+    let third_type = &first_type; // This creates a string slice (&str) that references the String on the heap, allowing us to use it without taking ownership.
+
+    // Slices can also be applied to arrays and vectors
+    let array = [1, 2, 3, 4, 5];
+    let slice = &array[1..4]; // This creates a slice that references the
+    // elements from index 1 to 3 (inclusive) of the array, which are 2, 3, and 4.
+    println!("Array slice: {:?}", slice);
+}
+
+fn get_first_word_using_slice(string_input:&String)->&str{
+    let mut index =0;
+    for (_,i) in string_input.chars().enumerate(){
+        if i == ' ' {
+            break;
+        }
+        index += 1;
+    }
+     return &string_input[0..index]
+}
+// Write a function that takes string as input and returns the first word of the string as output. If there is no space in the string, return the whole string as the first word.
+// Problem in this approach is that we are taking ownership of the string input and returning a new string, which is not efficient. We can instead return a string slice that references the original string without taking ownership.
+// We take up double the memory if the string1 gets cleared the answer string would still hold the value of the first word, which is not what we want. We can instead return a string slice that references the original string without taking ownership.
+// What we want is a 'view' into the original string, and not to copy it
+
+fn get_first_word(string_input:String)->String{
+    let mut answer = String::from("");
+    for char in string_input.chars() {
+        if char == ' ' {
+            break;
+        }
+        answer.push(char);
+    }
+    return answer;
 }
 
 // Writing a function that first filter all odd numbers and then double each value and create a new vector
@@ -273,17 +325,6 @@ fn takes_ownership_returns_string(some_string: String) -> String {
 
 fn takes_ownership(some_string: String) {
     println!("{}", some_string); // `some_string` now owns the data.
-}
-
-fn get_first_word(sentence: String)->String {
-    let mut answer = String::from("");
-    for char in sentence.chars() {
-        answer.push_str(char.to_string().as_str());
-        if char == ' ' {
-            break;
-        }
-    }
-    return answer;
 }
 
 fn sum(a: i32, b: i32) -> i32 {
