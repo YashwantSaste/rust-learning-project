@@ -248,7 +248,7 @@ fn main() {
     println!("First generic: {}", first_generic);
     println!("Second generic: {}", second_generic);
 
-    //Learning Traits in Rust
+    // Learning Traits in Rust
     // Traits are a way to define shared behavior in Rust. They allow us to specify a
     // set of methods that a type must implement in order to be considered as implementing that trait. This is similar to interfaces in other programming languages.
 
@@ -256,6 +256,37 @@ fn main() {
 
     let fix = Fix;
     notify(&fix);
+
+    // Learning lifetimes in Rust
+    let str1 = String::from("Hello");
+    let str2 = String::from("Hello Rust");
+    let longest = longest_string_slice(&str1, &str2);
+    println!("Longest string slice: {}", longest);
+}
+
+
+// Write a function that takes two strings and returns longest of the two strings. 
+// Approach 1: We can take ownership of both strings and return the longest one. 
+// However, this approach is not efficient because we are taking ownership of both strings and returning a new string, which involves copying the data.
+fn longest_string(str1: String, str2:String)->String{
+    if str1.len() > str2.len() {
+        return str1;
+    }
+    else{
+        return str2;
+    }
+}
+
+// Approach 2: We can instead return a string slice that references the original strings without taking ownership. 
+// This way, we can avoid unnecessary copying and improve efficiency.
+// Here 'a does not have to be the same as the lifetime of the input strings, but it must be at least as long as the lifetime of the 
+// input strings, so that the returned string slice is valid for as long as the input strings are valid.
+fn longest_string_slice<'a>(str1: &'a str, str2: &'a str) -> &'a str {
+    if str1.len() > str2.len() {
+        return str1;
+    } else {
+        return str2;
+    }
 }
 
 pub trait Summary {
