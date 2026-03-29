@@ -1,5 +1,6 @@
 use core::hash;
 use std::{char, fs, iter::Sum, string};
+use std::thread;
 
 fn main() {
 
@@ -269,7 +270,20 @@ fn main() {
     };
     println!("User with lifetime: {}", user_with_lifetime.name);
 
-    
+    // Learning Multi threading in Rust
+    thread::spawn(|| {
+        for i in 0..20{
+            println!("This is a thread! {}", i);
+            thread::sleep(std::time::Duration::from_millis(1));
+        }
+    });
+
+    for i in 0..5 {
+        println!("Main thread: {}", i);
+        thread::sleep(std::time::Duration::from_millis(1));
+    }
+
+
 }
 
 
