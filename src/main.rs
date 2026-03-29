@@ -1,5 +1,5 @@
 use core::hash;
-use std::{char, fs, string};
+use std::{char, fs, iter::Sum, string};
 
 fn main() {
 
@@ -247,6 +247,50 @@ fn main() {
     let second_generic = generic_function("Hello"); // This will work with a string slice type
     println!("First generic: {}", first_generic);
     println!("Second generic: {}", second_generic);
+
+    //Learning Traits in Rust
+    // Traits are a way to define shared behavior in Rust. They allow us to specify a
+    // set of methods that a type must implement in order to be considered as implementing that trait. This is similar to interfaces in other programming languages.
+
+    println!("User summary: {}", user.summarize());
+
+    let fix = Fix;
+    notify(&fix);
+}
+
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+
+impl Summary for User {
+    fn summarize(&self) -> String {
+       return format!("{} is {} years old and can be contacted at {}", self.name, self.age, self.email);
+    }
+}
+
+struct Fix;
+
+impl Summary for Fix {
+    fn summarize(&self) -> String {
+        return String::from("This is a fixed summary.");
+    }
+}
+
+
+// This is a sugar coat syntax for something different which is illustarted as method notify_as_detailed_syntax.
+fn notify(item: &impl Summary) {
+    println!("Breaking news! {}", item.summarize());
+}
+
+// Single trait bound
+fn notify_as_detailed_syntx<T:Summary>(item: T){
+    println!("Breaking news! {}", item.summarize());
+}
+
+// Multiple trait bounds
+fn notify_with_multiple_traits<T:Summary + std::fmt::Display>(item: &T){
+    println!("Breaking news! {}", item.summarize());
+    println!("Display output: {}", item);
 }
 
 // Writing a function demonstarting the generics in Rust
