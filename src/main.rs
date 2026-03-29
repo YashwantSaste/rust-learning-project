@@ -262,8 +262,21 @@ fn main() {
     let str2 = String::from("Hello Rust");
     let longest = longest_string_slice(&str1, &str2);
     println!("Longest string slice: {}", longest);
+
+    // Learning lifetimes in Rust with structs
+    let user_with_lifetime = UserWithLifeTime {
+        name: "Alice Borderland",
+    };
+    println!("User with lifetime: {}", user_with_lifetime.name);
+
+    
 }
 
+
+// Struct with a liefetime parameter
+struct UserWithLifeTime<'a>{
+    name: &'a str
+}
 
 // Write a function that takes two strings and returns longest of the two strings. 
 // Approach 1: We can take ownership of both strings and return the longest one. 
