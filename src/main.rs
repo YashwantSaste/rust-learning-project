@@ -271,17 +271,46 @@ fn main() {
     println!("User with lifetime: {}", user_with_lifetime.name);
 
     // Learning Multi threading in Rust
-    thread::spawn(|| {
-        for i in 0..20{
+    // thread::spawn(|| {
+    //     for i in 0..20{
+    //         println!("This is a thread! {}", i);
+    //         thread::sleep(std::time::Duration::from_millis(1));
+    //     }
+    // });
+
+    // for i in 0..5 {
+    //     println!("Main thread: {}", i);
+    //     thread::sleep(std::time::Duration::from_millis(1));
+    // }
+
+
+    // Awaiting a thread to finish before exiting the main thread
+    let nos = 0;
+    let handle =thread::spawn(|| {
+        for i in 0..10 {
             println!("This is a thread! {}", i);
             thread::sleep(std::time::Duration::from_millis(1));
         }
     });
 
+    handle.join().unwrap(); // Wait for the thread to finish before exiting the main thread
+
     for i in 0..5 {
         println!("Main thread: {}", i);
         thread::sleep(std::time::Duration::from_millis(1));
     }
+
+    // Learning move keyword in Rust
+    let mut my_string = String::from("Hello");
+    let handle = thread::spawn(move || {
+        for i in 0..10 {
+            my_string.push_str(" World");
+             thread::sleep(std::time::Duration::from_millis(1));
+        }
+        println!("This is a thread with move keyword! {}", my_string);
+    });
+    handle.join().unwrap(); // Wait for the thread to finish before exiting the main thread
+    // println!("Main thread after move: {}", my_string); // This line would cause a compile error because ownership has been moved to the thread.
 
 
 }
