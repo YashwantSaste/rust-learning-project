@@ -1,4 +1,5 @@
 use core::hash;
+use std::sync::mpsc;
 use std::{char, fs, iter::Sum, string};
 use std::thread;
 
@@ -312,10 +313,77 @@ fn main() {
     handle.join().unwrap(); // Wait for the thread to finish before exiting the main thread
     // println!("Main thread after move: {}", my_string); // This line would cause a compile error because ownership has been moved to the thread.
 
+    // Learning message passing between threads in Rust
+    // Rust has a concept of channels for message passing between threads. 
+    // A channel is a way to send data from one thread to another thread safely, without the need for locks or other synchronization primitives.
+    // Every channel has two halves: a sender and a receiver. 
+    // The sender is used to send data, while the receiver is used to receive data.
+
+    let (sender, receiver) = mpsc::channel();
+
+    thread::spawn(move || {
+        let value1 = String::from("hi");
+        sender.send(value1).unwrap();
+    });
+
+    let received_message = receiver.recv().unwrap();
+    println!("Received message: {}", received_message);
+
+
+    // Learning multiple producers and single consumer with channels in Rust
+    let (sender1, common_receiver) = mpsc::channel();
+    let sender2 = sender1.clone();
+
+    thread::spawn(move || {
+        let values1 = vec![
+            String::from("Hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("first"),
+            String::from("thread")  
+        ];
+
+        for value in values1 {
+            sender1.send(value).unwrap();
+            thread::sleep(std::time::Duration::from_millis(100));
+        }
+    });
+
+    thread::spawn(move || {
+        let values2 = vec![
+            String::from("Hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("second"),
+            String::from("thread")  
+        ];
+
+        for value in values2 {
+            sender2.send(value).unwrap();
+            thread::sleep(std::time::Duration::from_millis(100));
+        }
+    });
+
+    for recevied_messages in common_receiver {
+        println!("Received: {}", recevied_messages);
+    }
+
+    // Learning macros in Rust
+
+    // println!("Printing struct with Display trait: {}", user); 
+    // This line would cause a error because the User struct does not implement the Display trait,
+    // which is required for using the {} format specifier in println!.
+
+    println!("Printing struct with Display trait: {}", user);
+
 
 }
 
-
+impl std::fmt::Display for User {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "User {{ name: {}, age: {}, email: {}, active: {} }}", self.name, self.age, self.email, self.active)
+    }
+}
 // Struct with a liefetime parameter
 struct UserWithLifeTime<'a>{
     name: &'a str
